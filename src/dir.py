@@ -24,10 +24,15 @@ def create_dir(path):
         return False
 
 
-def change_wallpaper(wallpaper_path):
+def change_wallpaper(wallpaper_path, monitor=None):
     monitors = get_monitors()
+    print(monitor)
+
     os.system(f"hyprctl hyprpaper preload {wallpaper_path}")
-    for monitor in monitors:
+    if monitor is None:
+        for monitor in monitors:
+            os.system(f"hyprctl hyprpaper wallpaper {monitor}, {wallpaper_path}")
+    else:
         os.system(f"hyprctl hyprpaper wallpaper {monitor}, {wallpaper_path}")
 
 
