@@ -54,7 +54,7 @@ class Interface(interface.CTk):
             if current_column > 1:
                 current_row += 1
                 current_column = 0
-            else:
-                arr[0].grid(row=current_row, column=current_column,
-                            padx=20, pady=20)
-                current_column += 1
+
+            arr[0].grid(row=current_row, column=current_column,
+                        padx=20, pady=20)
+            current_column += 1
