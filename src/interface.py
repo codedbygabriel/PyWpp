@@ -1,5 +1,5 @@
 import customtkinter as interface
-from dir import list_dirs, change_wallpaper
+from dir import list_dirs, change_wallpaper, get_monitors
 from PIL import Image
 
 interface.set_appearance_mode('dark')
@@ -24,6 +24,7 @@ class Interface(interface.CTk):
 
         self.image_showcase()
         self.grid_layout()
+        self.combo_def()
 
     def image_showcase(self):
         default_width = 320
@@ -38,18 +39,24 @@ class Interface(interface.CTk):
             self.my_label = interface.CTkLabel(
                 self.container, image=self.my_image, text="")
 
-            self.my_label.bind("<Button-1>", lambda event, img=image:
-                               change_wallpaper(img))
+            self.my_label.bind("<Button-1>", lambda event, path=image:
+                               self.path_provider(path))
 
             self.images.append([self.my_label, image])
 
-    def path_provider(self, event, path):
-        change_wallpaper(path)
+    def path_provider(self, path):
+        monitor = self.combobox.get()
+
+        if monitor == "Default!!!":
+            change_wallpaper(path)
+        else:
+            change_wallpaper(path, monitor)
 
     def grid_layout(self):
         current_row = 0
         current_column = 0
 
+        # setting images on layout
         for arr in self.images:
             if current_column > 1:
                 current_row += 1
@@ -58,3 +65,9 @@ class Interface(interface.CTk):
             arr[0].grid(row=current_row, column=current_column,
                         padx=20, pady=20)
             current_column += 1
+
+    def combo_def(self):
+        res = list(get_monitors())
+        self.combobox = interface.CTkComboBox(self, values=res,)
+        self.combobox.grid(row=1, column=0, sticky="nsew")
+        self.combobox.set("Default!!!")
