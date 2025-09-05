@@ -6,7 +6,7 @@ user_home = os.getenv('HOME')
 path = Path(f'{user_home}/Wallpapers')
 
 
-def list_dirs():
+def list_dirs() -> set:
     files = set()
     if path.is_dir():
         for file in path.iterdir():
@@ -16,7 +16,7 @@ def list_dirs():
         create_dir(path)
 
 
-def create_dir(path):
+def create_dir(path) -> bool:
     res = os.makedirs(path)
     if res == 0:
         return True
@@ -24,7 +24,7 @@ def create_dir(path):
         return False
 
 
-def change_wallpaper(wallpaper_path, monitor=None):
+def change_wallpaper(wallpaper_path, monitor=None) -> None:
     monitors = get_monitors()
     print(monitor)
 
@@ -36,7 +36,7 @@ def change_wallpaper(wallpaper_path, monitor=None):
         os.system(f"hyprctl hyprpaper wallpaper {monitor}, {wallpaper_path}")
 
 
-def get_monitors():
+def get_monitors() -> set:
     res = str(subprocess.check_output(
         "hyprctl monitors all", shell=True, ))
     # print(res.split("\\n")[0].split(" "))
